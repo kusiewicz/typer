@@ -1,6 +1,9 @@
+@import "flowbite/src/themes/default";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@plugin "flowbite/plugin";
+@source "../node_modules/flowbite";
 
 @layer base {
   html {
@@ -18,5 +21,17 @@
 
   .using-mouse * {
     outline: none !important;
+  }
+
+  h1 {
+    @apply text-2xl lg:text-3xl font-bold;
+  }
+
+  h2 {
+    @apply text-xl lg:text-2xl font-bold;
+  }
+
+  h3 {
+    @apply text-lg lg:text-xl font-bold;
   }
 }
