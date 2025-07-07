@@ -10,7 +10,6 @@ import { formOpts } from "./login-form-opts";
 const serverValidate = createServerValidate({
   ...formOpts,
   onServerValidate: ({ value }) => {
-    console.log("onServerValidate", value);
     if (!value.username) {
       return "Server validation: You have to provide a username";
     }

@@ -1,6 +1,7 @@
-import { mergeForm, useForm, useTransform } from "@tanstack/react-form";
+import { mergeForm, useTransform } from "@tanstack/react-form";
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
+import { useAppForm } from "~/components/form";
 import { Section } from "~/components/section";
 import { getFormDataFromServer, handleForm } from "~/utils/login-form";
 import { formOpts } from "~/utils/login-form-opts";
@@ -45,24 +46,12 @@ export const Route = createFileRoute("/login")({
 function LoginComp() {
   const { state } = Route.useLoaderData();
 
-  const form = useForm({
+  const form = useAppForm({
     ...formOpts,
     transform: useTransform((baseForm) => mergeForm(baseForm, state), [state]),
     validators: {
-      onChange: zodValidator(loginSchema),
+      onSubmit: zodValidator(loginSchema),
     },
-    // validators: {
-    //   onChange: ({ value }) => {
-    //     return {
-    //       fields: {
-    //         username:
-    //           value.username.length < 5
-    //             ? "Username should be bla bla "
-    //             : undefined,
-    //       },
-    //     };
-    //   },
-    // },
   });
 
   return (
@@ -71,134 +60,36 @@ function LoginComp() {
         className="max-w-sm mx-auto"
         action={handleForm.url}
         method="post"
-        encType={"multipart/form-data"} // potrzebne?
+        encType={"multipart/form-data"}
+        onSubmit={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          form.handleSubmit();
+        }}
       >
         <div className="mb-5">
-          <form.Field
+          <form.AppField
             name="username"
-            validators={
-              {
-                // onChangeAsyncDebounceMs: 500,
-                // onChangeAsync: async ({ value }) => {
-                //   await new Promise((resolve) => setTimeout(resolve, 1000));
-                //   return (
-                //     value.includes("error") && 'No "error" allowed in first name'
-                //   );
-                // },
-              }
-            }
-            children={(field) => {
-              return (
-                <>
-                  <label
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    htmlFor={field.name}
-                  >
-                    First Name:
-                  </label>
-                  <input
-                    id={field.name}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                  />
-                  {!field.state.meta.isValid && (
-                    <em role="alert">{field.state.meta.errors.join(", ")}</em>
-                  )}
-                </>
-              );
-            }}
+            children={(field) => <field.TextField label="Full name" />}
           />
         </div>
         <div className="mb-5">
-          <form.Field
+          <form.AppField
             name="email"
-            validators={
-              {
-                // onChangeAsyncDebounceMs: 500,
-                // onChangeAsync: async ({ value }) => {
-                //   await new Promise((resolve) => setTimeout(resolve, 1000));
-                //   return value.includes("error") && 'No "error" allowed in email';
-                // },
-              }
-            }
-            children={(field) => {
-              return (
-                <>
-                  <label
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    htmlFor={field.name}
-                  >
-                    Email:
-                  </label>
-                  <input
-                    id={field.name}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                  />
-                  {!field.state.meta.isValid && (
-                    <em role="alert">{field.state.meta.errors.join(", ")}</em>
-                  )}
-                </>
-              );
-            }}
+            children={(field) => <field.TextField label="Email" />}
           />
         </div>
         <div className="mb-5">
-          <form.Field
+          <form.AppField
             name="password"
-            validators={
-              {
-                // onChangeAsyncDebounceMs: 500,
-                // onChangeAsync: async ({ value }) => {
-                //   await new Promise((resolve) => setTimeout(resolve, 1000));
-                //   return (
-                //     value.includes("error") && 'No "error" allowed in password'
-                //   );
-                // },
-              }
-            }
-            children={(field) => {
-              return (
-                <>
-                  <label
-                    htmlFor={field.name}
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Hasło
-                  </label>
-                  <input
-                    type="password"
-                    id={field.name}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                  />
-                  {!field.state.meta.isValid && (
-                    <em role="alert">{field.state.meta.errors.join(", ")}</em>
-                  )}
-                </>
-              );
-            }}
+            children={(field) => <field.TextField label="Password" />}
           />
         </div>
-        <form.Subscribe
-          selector={(formState) => [
-            formState.canSubmit,
-            formState.isSubmitting,
-          ]}
-        >
-          {([canSubmit, isSubmitting]) => (
+        <form.Subscribe selector={(state) => state.isSubmitting}>
+          {(isSubmitting) => (
             <button
               type="submit"
-              disabled={!canSubmit}
+              disabled={isSubmitting}
               className="text-white bg-blue-700 disabled:bg-blue-400 dark:disabled:bg-slate-400 disabled:cursor-not-allowed hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
               {isSubmitting ? "loading" : "Submit"}
