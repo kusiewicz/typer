@@ -19,7 +19,7 @@ export const TextField = ({ label }: { label: string }) => {
         onBlur={field.handleBlur}
         onChange={(e) => field.handleChange(e.target.value)}
       />
-      {!field.state.meta.isValid && (
+      {!field.state.meta.isValid && !field.state.meta.isPristine && (
         <em className="text-red-500 text-xs" role="alert">
           {field.state.meta.errors.join(", ")}
         </em>

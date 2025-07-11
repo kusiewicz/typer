@@ -1,58 +1,16 @@
 import { createServerFn } from "@tanstack/react-start";
-import {
-  ServerValidateError,
-  createServerValidate,
-  getFormData,
-} from "@tanstack/react-form/start";
-import { setResponseStatus } from "@tanstack/react-start/server";
-import { formOpts } from "./login-form-opts";
+import { getFormData } from "@tanstack/react-form/start";
+import { loginSchema } from "./login-form-opts";
+import { zodValidator } from "./zod-validator-server";
 
-const serverValidate = createServerValidate({
-  ...formOpts,
-  onServerValidate: ({ value }) => {
-    if (!value.username) {
-      return "Server validation: You have to provide a username";
-    }
-    if (!value.email) {
-      return "Server validation: You have to provide an email";
-    }
-    if (!value.password) {
-      return "Server validation: You have to provide a password";
-    }
-  },
-});
-
-export const handleForm = createServerFn({
+export const signupFn = createServerFn({
   method: "POST",
 })
-  .validator((data: unknown) => {
-    if (!(data instanceof FormData)) {
-      throw new Error("Invalid form data");
-    }
-    return data;
+  .validator((data: FormData) => {
+    return zodValidator(loginSchema)(data);
   })
-  .handler(async (ctx) => {
-    try {
-      const validatedData = await serverValidate(ctx.data);
-      console.log("validatedData", validatedData);
-      // Persist the form data to the database
-      // await sql`
-      //   INSERT INTO users (name, email, password)
-      //   VALUES (${validatedData.name}, ${validatedData.email}, ${validatedData.password})
-      // `
-    } catch (e) {
-      if (e instanceof ServerValidateError) {
-        // Log form errors or do any other logic hereg
-        return e.response;
-      }
-
-      // Some other error occurred when parsing the form
-      console.error(e);
-      setResponseStatus(500);
-      return "There was an internal error";
-    }
-
-    return "Form has validated successfully";
+  .handler(async (ctx: unknown) => {
+    console.log(ctx);
   });
 
 export const getFormDataFromServer = createServerFn({ method: "GET" }).handler(
