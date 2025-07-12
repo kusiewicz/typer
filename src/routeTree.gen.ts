@@ -13,10 +13,11 @@ import { createServerRootRoute } from '@tanstack/react-start/server'
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WrapperRouteImport } from './routes/wrapper'
 import { Route as SignupRouteImport } from './routes/signup'
+import { Route as SigninRouteImport } from './routes/signin'
 import { Route as RedirectRouteImport } from './routes/redirect'
 import { Route as LogoutRouteImport } from './routes/logout'
-import { Route as LoginRouteImport } from './routes/login'
 import { Route as DeferredRouteImport } from './routes/deferred'
+import { Route as ConfirmEmailRouteImport } from './routes/confirm-email'
 import { Route as PathlessLayoutRouteImport } from './routes/_pathlessLayout'
 import { Route as AuthedRouteImport } from './routes/_authed'
 import { Route as UsersRouteRouteImport } from './routes/users.route'
@@ -46,6 +47,11 @@ const SignupRoute = SignupRouteImport.update({
   path: '/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SigninRoute = SigninRouteImport.update({
+  id: '/signin',
+  path: '/signin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RedirectRoute = RedirectRouteImport.update({
   id: '/redirect',
   path: '/redirect',
@@ -56,14 +62,14 @@ const LogoutRoute = LogoutRouteImport.update({
   path: '/logout',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const DeferredRoute = DeferredRouteImport.update({
   id: '/deferred',
   path: '/deferred',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConfirmEmailRoute = ConfirmEmailRouteImport.update({
+  id: '/confirm-email',
+  path: '/confirm-email',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PathlessLayoutRoute = PathlessLayoutRouteImport.update({
@@ -151,10 +157,11 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/posts': typeof PostsRouteRouteWithChildren
   '/users': typeof UsersRouteRouteWithChildren
+  '/confirm-email': typeof ConfirmEmailRoute
   '/deferred': typeof DeferredRoute
-  '/login': typeof LoginRoute
   '/logout': typeof LogoutRoute
   '/redirect': typeof RedirectRoute
+  '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
   '/wrapper': typeof WrapperRoute
   '/post': typeof AuthedPostRoute
@@ -168,10 +175,11 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/confirm-email': typeof ConfirmEmailRoute
   '/deferred': typeof DeferredRoute
-  '/login': typeof LoginRoute
   '/logout': typeof LogoutRoute
   '/redirect': typeof RedirectRoute
+  '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
   '/wrapper': typeof WrapperRoute
   '/post': typeof AuthedPostRoute
@@ -190,10 +198,11 @@ export interface FileRoutesById {
   '/users': typeof UsersRouteRouteWithChildren
   '/_authed': typeof AuthedRouteWithChildren
   '/_pathlessLayout': typeof PathlessLayoutRouteWithChildren
+  '/confirm-email': typeof ConfirmEmailRoute
   '/deferred': typeof DeferredRoute
-  '/login': typeof LoginRoute
   '/logout': typeof LogoutRoute
   '/redirect': typeof RedirectRoute
+  '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
   '/wrapper': typeof WrapperRoute
   '/_authed/post': typeof AuthedPostRoute
@@ -212,10 +221,11 @@ export interface FileRouteTypes {
     | '/'
     | '/posts'
     | '/users'
+    | '/confirm-email'
     | '/deferred'
-    | '/login'
     | '/logout'
     | '/redirect'
+    | '/signin'
     | '/signup'
     | '/wrapper'
     | '/post'
@@ -229,10 +239,11 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/confirm-email'
     | '/deferred'
-    | '/login'
     | '/logout'
     | '/redirect'
+    | '/signin'
     | '/signup'
     | '/wrapper'
     | '/post'
@@ -250,10 +261,11 @@ export interface FileRouteTypes {
     | '/users'
     | '/_authed'
     | '/_pathlessLayout'
+    | '/confirm-email'
     | '/deferred'
-    | '/login'
     | '/logout'
     | '/redirect'
+    | '/signin'
     | '/signup'
     | '/wrapper'
     | '/_authed/post'
@@ -273,10 +285,11 @@ export interface RootRouteChildren {
   UsersRouteRoute: typeof UsersRouteRouteWithChildren
   AuthedRoute: typeof AuthedRouteWithChildren
   PathlessLayoutRoute: typeof PathlessLayoutRouteWithChildren
+  ConfirmEmailRoute: typeof ConfirmEmailRoute
   DeferredRoute: typeof DeferredRoute
-  LoginRoute: typeof LoginRoute
   LogoutRoute: typeof LogoutRoute
   RedirectRoute: typeof RedirectRoute
+  SigninRoute: typeof SigninRoute
   SignupRoute: typeof SignupRoute
   WrapperRoute: typeof WrapperRoute
   PostsPostIdDeepRoute: typeof PostsPostIdDeepRoute
@@ -322,6 +335,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/signin': {
+      id: '/signin'
+      path: '/signin'
+      fullPath: '/signin'
+      preLoaderRoute: typeof SigninRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/redirect': {
       id: '/redirect'
       path: '/redirect'
@@ -336,18 +356,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LogoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/deferred': {
       id: '/deferred'
       path: '/deferred'
       fullPath: '/deferred'
       preLoaderRoute: typeof DeferredRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/confirm-email': {
+      id: '/confirm-email'
+      path: '/confirm-email'
+      fullPath: '/confirm-email'
+      preLoaderRoute: typeof ConfirmEmailRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_pathlessLayout': {
@@ -556,10 +576,11 @@ const rootRouteChildren: RootRouteChildren = {
   UsersRouteRoute: UsersRouteRouteWithChildren,
   AuthedRoute: AuthedRouteWithChildren,
   PathlessLayoutRoute: PathlessLayoutRouteWithChildren,
+  ConfirmEmailRoute: ConfirmEmailRoute,
   DeferredRoute: DeferredRoute,
-  LoginRoute: LoginRoute,
   LogoutRoute: LogoutRoute,
   RedirectRoute: RedirectRoute,
+  SigninRoute: SigninRoute,
   SignupRoute: SignupRoute,
   WrapperRoute: WrapperRoute,
   PostsPostIdDeepRoute: PostsPostIdDeepRoute,

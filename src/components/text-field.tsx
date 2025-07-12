@@ -1,6 +1,12 @@
 import { useFieldContext } from "./form";
 
-export const TextField = ({ label }: { label: string }) => {
+export const TextField = ({
+  label,
+  inputType,
+}: {
+  label: string;
+  inputType?: string;
+}) => {
   const field = useFieldContext<string>();
 
   return (
@@ -18,6 +24,7 @@ export const TextField = ({ label }: { label: string }) => {
         value={field.state.value}
         onBlur={field.handleBlur}
         onChange={(e) => field.handleChange(e.target.value)}
+        type={inputType}
       />
       {!field.state.meta.isValid && !field.state.meta.isPristine && (
         <em className="text-red-500 text-xs" role="alert">

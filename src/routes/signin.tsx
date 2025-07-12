@@ -1,31 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useAppForm } from "~/components/form";
 import { Section } from "~/components/section";
-import { signupFn } from "~/utils/login-form";
-import { formOpts, loginSchema } from "~/utils/login-form-opts";
+import { formOpts, AuthSchema } from "~/utils/auth-form-opts";
 import { zodValidator } from "~/utils/zod-validator-client";
+import { signinFn } from "~/utils/signin-form";
 
-export const Route = createFileRoute("/login")({
-  component: LoginComp,
+export const Route = createFileRoute("/signin")({
+  component: SignIn,
 });
 
-function LoginComp() {
+function SignIn() {
   const form = useAppForm({
     ...formOpts,
     validators: {
-      onChange: zodValidator(loginSchema),
+      onChange: zodValidator(AuthSchema),
     },
   });
 
   return (
     <Section title={<h1>Login</h1>}>
-      <form className="max-w-sm mx-auto" method="post" action={signupFn.url}>
-        <div className="mb-5">
-          <form.AppField
-            name="username"
-            children={(field) => <field.TextField label="Full name" />}
-          />
-        </div>
+      <form className="max-w-sm mx-auto" method="post" action={signinFn.url}>
         <div className="mb-5">
           <form.AppField
             name="email"
@@ -35,7 +29,9 @@ function LoginComp() {
         <div className="mb-5">
           <form.AppField
             name="password"
-            children={(field) => <field.TextField label="Password" />}
+            children={(field) => (
+              <field.TextField label="Hasło" inputType="password" />
+            )}
           />
         </div>
         <form.Subscribe

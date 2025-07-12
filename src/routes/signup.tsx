@@ -1,62 +1,55 @@
-import { redirect, createFileRoute } from "@tanstack/react-router";
-import { createServerFn, useServerFn } from "@tanstack/react-start";
-import { Auth } from "../components/Auth";
-import { getSupabaseServerClient } from "../utils/supabase";
-import { useMutation } from "@tanstack/react-query";
-
-export const signupFn = createServerFn({ method: "POST" })
-  .validator(
-    (d: { email: string; password: string; redirectUrl?: string }) => d
-  )
-  .handler(async ({ data }) => {
-    const supabase = getSupabaseServerClient();
-    const { error } = await supabase.auth.signUp({
-      email: data.email,
-      password: data.password,
-    });
-    if (error) {
-      return {
-        error: true,
-        message: error.message,
-      };
-    }
-
-    // Redirect to the prev page stored in the "redirect" search param
-    throw redirect({
-      href: data.redirectUrl || "/",
-    });
-  });
+import { createFileRoute } from "@tanstack/react-router";
+import { useAppForm } from "~/components/form";
+import { Section } from "~/components/section";
+import { signupFn } from "~/utils/signup-form";
+import { formOpts, AuthSchema } from "~/utils/auth-form-opts";
+import { zodValidator } from "~/utils/zod-validator-client";
 
 export const Route = createFileRoute("/signup")({
-  component: SignupComp,
+  component: SignUp,
 });
 
-function SignupComp() {
-  const signupMutation = useMutation({
-    mutationFn: useServerFn(signupFn),
+function SignUp() {
+  const form = useAppForm({
+    ...formOpts,
+    validators: {
+      onChange: zodValidator(AuthSchema),
+    },
   });
 
   return (
-    <Auth
-      actionText="Sign Up"
-      status={signupMutation.status}
-      onSubmit={(e) => {
-        const formData = new FormData(e.target as HTMLFormElement);
-
-        signupMutation.mutate({
-          data: {
-            email: formData.get("email") as string,
-            password: formData.get("password") as string,
-          },
-        });
-      }}
-      afterSubmit={
-        signupMutation.data?.error ? (
-          <>
-            <div className="text-red-400">{signupMutation.data.message}</div>
-          </>
-        ) : null
-      }
-    />
+    <Section title={<h1>Rejestracja</h1>}>
+      <form className="max-w-sm mx-auto" method="post" action={signupFn.url}>
+        <div className="mb-5">
+          <form.AppField
+            name="email"
+            children={(field) => <field.TextField label="Email" />}
+          />
+        </div>
+        <div className="mb-5">
+          <form.AppField
+            name="password"
+            children={(field) => (
+              <field.TextField label="Hasło" inputType="password" />
+            )}
+          />
+        </div>
+        <form.Subscribe
+          selector={(state) => {
+            return [state.isSubmitting, state.canSubmit, state.isPristine];
+          }}
+        >
+          {([isSubmitting, canSubmit, isPristine]) => (
+            <button
+              type="submit"
+              disabled={isSubmitting || !canSubmit || isPristine}
+              className="text-white bg-blue-700 disabled:bg-blue-400 dark:disabled:bg-slate-400 disabled:cursor-not-allowed hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              {isSubmitting ? "loading" : "Submit"}
+            </button>
+          )}
+        </form.Subscribe>
+      </form>
+    </Section>
   );
 }
