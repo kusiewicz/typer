@@ -1,9 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useAppForm } from "~/components/form";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useAppForm } from "~/components/app-form";
 import { Section } from "~/components/section";
-import { signupFn } from "~/utils/signup-form";
-import { formOpts, AuthSchema } from "~/utils/auth-form-opts";
-import { zodValidator } from "~/utils/zod-validator-client";
+import { signupFn } from "~/features/auth/actions";
+import { AuthSchema, formOpts } from "~/features/auth/validators";
+import { zodValidator } from "~/utils/zod/zod-validator-client";
 
 export const Route = createFileRoute("/signup")({
   component: SignUp,
@@ -50,6 +50,12 @@ function SignUp() {
           )}
         </form.Subscribe>
       </form>
+      <p className="mt-4 text-sm">
+        Masz juz konto?{" "}
+        <Link to={"/signin"} className="text-blue-300 hover:text-blue-400">
+          Zaloguj się
+        </Link>
+      </p>
     </Section>
   );
 }

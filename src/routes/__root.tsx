@@ -9,14 +9,14 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import * as React from "react";
 import type { QueryClient } from "@tanstack/react-query";
-import { DefaultCatchBoundary } from "~/components/DefaultCatchBoundary";
-import { NotFound } from "~/components/NotFound";
+import { DefaultCatchBoundary } from "~/components/default-catch-boundary";
+import { NotFound } from "~/components/not-found";
 import appCss from "~/styles/app.css?url";
 import { seo } from "~/utils/seo";
 import { createServerFn } from "@tanstack/react-start";
-import { getSupabaseServerClient } from "~/utils/supabase";
+import { getSupabaseServerClient } from "~/utils/supabase/server";
 
-const fetchUser = createServerFn({ method: "GET" }).handler(async () => {
+export const fetchUser = createServerFn({ method: "GET" }).handler(async () => {
   const supabase = getSupabaseServerClient();
   const { data, error: _error } = await supabase.auth.getUser();
 
@@ -106,9 +106,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <div className="w-screen h-screen bg-slate-800 flex justify-center items-center text-gray-900 dark:text-white">
-          {/* <h1 className="text-black">
-            {user?.email ? user.email : "ZALOGUJ SIE"}
-          </h1> */}
+          <h1 className="text-black">{user?.email && `Hello ${user.email}`}</h1>
           {children}
         </div>
         <TanStackRouterDevtools position="bottom-right" />
