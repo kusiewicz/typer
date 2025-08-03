@@ -8,21 +8,29 @@ export const Route = createFileRoute("/_authed/")({
 function Home() {
   const supabase = getSupabaseBrowserClient();
   const navigate = useNavigate();
+  const { user } = Route.useRouteContext();
 
   return (
-    <div className="p-2">
-      <h3>Welcome Home!!!</h3>
-      <button
-        onClick={async () => {
-          await supabase.auth.signOut().then(() => {
-            navigate({
-              to: "/",
+    <>
+      <header className="flex justify-between items-center p-4">
+        <h1 className="text-black text-xl">
+          {user?.email && `Hello ${user.email}`}
+        </h1>
+        <button
+          onClick={async () => {
+            await supabase.auth.signOut().then(() => {
+              navigate({
+                to: "/",
+              });
             });
-          });
-        }}
-      >
-        Wyloguj sie
-      </button>
-    </div>
+          }}
+        >
+          Wyloguj sie
+        </button>
+      </header>
+      <div className="flex flex-col items-center justify-center">
+        <h1>Home</h1>
+      </div>
+    </>
   );
 }

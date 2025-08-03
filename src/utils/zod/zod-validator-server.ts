@@ -8,6 +8,6 @@ export const zodValidator = (schema: z.ZodSchema<any>) => {
     }
 
     // todo make server validataion better
-    throw new Error("Server error");
+    throw new Error("Server error: Invalid payload");
   };
 };

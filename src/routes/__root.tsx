@@ -13,21 +13,7 @@ import { DefaultCatchBoundary } from "~/components/default-catch-boundary";
 import { NotFound } from "~/components/not-found";
 import appCss from "~/styles/app.css?url";
 import { seo } from "~/utils/seo";
-import { createServerFn } from "@tanstack/react-start";
-import { getSupabaseServerClient } from "~/utils/supabase/server";
-
-export const fetchUser = createServerFn({ method: "GET" }).handler(async () => {
-  const supabase = getSupabaseServerClient();
-  const { data, error: _error } = await supabase.auth.getUser();
-
-  if (!data.user?.email) {
-    return null;
-  }
-
-  return {
-    email: data.user.email,
-  };
-});
+import { fetchUser } from "~/features/auth/actions";
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
@@ -97,22 +83,19 @@ function RootComponent() {
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
-  const { user } = Route.useRouteContext();
-
   return (
     <html>
       <head>
         <HeadContent />
       </head>
       <body>
-        <div className="w-screen h-screen bg-slate-800 flex justify-center items-center text-gray-900 dark:text-white">
-          <h1 className="text-black">{user?.email && `Hello ${user.email}`}</h1>
+        <div className="w-screen h-screen bg-slate-800 text-gray-900 dark:text-white">
           {children}
+          <TanStackRouterDevtools position="bottom-right" />
+          <ReactQueryDevtools buttonPosition="bottom-left" />
+          <Scripts />
+          <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
         </div>
-        <TanStackRouterDevtools position="bottom-right" />
-        <ReactQueryDevtools buttonPosition="bottom-left" />
-        <Scripts />
-        <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
       </body>
     </html>
   );
