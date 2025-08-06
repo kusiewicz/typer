@@ -17,10 +17,10 @@ export const Route = createFileRoute("/signup")({
       });
     }
   },
-  component: SignUp,
+  component: SignUpPage,
 });
 
-function SignUp() {
+function SignUpPage() {
   const form = useAppForm({
     ...signupFormOpts,
     validators: {

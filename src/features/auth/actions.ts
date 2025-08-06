@@ -75,3 +75,19 @@ export const fetchUser = createServerFn({ method: "GET" }).handler(async () => {
     email: data.user.email,
   };
 });
+
+export const logoutFn = createServerFn().handler(async () => {
+  const supabase = getSupabaseServerClient();
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    return {
+      error: true,
+      message: error.message,
+    };
+  }
+
+  throw redirect({
+    href: "/",
+  });
+});

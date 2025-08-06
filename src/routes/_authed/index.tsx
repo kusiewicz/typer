@@ -1,4 +1,4 @@
-import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { getSupabaseBrowserClient } from "~/utils/supabase/client";
 
 export const Route = createFileRoute("/_authed/")({

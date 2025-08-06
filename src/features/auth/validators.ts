@@ -13,14 +13,16 @@ export const signupFormOpts = formOptions({
 });
 
 export const SignupAuthSchema = z.object({
-  email: z.email("Nieprawidłowy adres email."),
-  password: z.string().min(8, "Hasło musi zawierać przynajmniej 8 znaków."),
+  email: z.email("Invalid email."),
+  password: z
+    .string()
+    .min(8, "Password must consist of at least 8 characters."),
   username: z
     .string()
-    .min(5, "Nazwa uzytkownika musi zawierać przynajmniej 5 znaków"),
+    .min(5, "USername must consist of at least 5 characters."),
 });
 
-//Signin
+// Signin
 export type SigninAuthForm = z.infer<typeof SigninAuthSchema>;
 
 export const signinFormOpts = formOptions({
@@ -31,6 +33,8 @@ export const signinFormOpts = formOptions({
 });
 
 export const SigninAuthSchema = z.object({
-  email: z.email("Nieprawidłowy adres email."),
-  password: z.string().min(8, "Hasło musi zawierać przynajmniej 8 znaków."),
+  email: z.email("Invalid email."),
+  password: z
+    .string()
+    .min(8, "Password must consist of at least 8 characters."),
 });

@@ -17,10 +17,10 @@ export const Route = createFileRoute("/signin")({
       });
     }
   },
-  component: SignIn,
+  component: SignInPage,
 });
 
-function SignIn() {
+function SignInPage() {
   const form = useAppForm({
     ...signinFormOpts,
     validators: {

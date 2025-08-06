@@ -15,6 +15,7 @@ import { Route as LogoutRouteImport } from './routes/logout'
 import { Route as ConfirmEmailRouteImport } from './routes/confirm-email'
 import { Route as AuthedRouteImport } from './routes/_authed'
 import { Route as AuthedIndexRouteImport } from './routes/_authed/index'
+import { Route as AuthedAddTeamRouteImport } from './routes/_authed/add-team'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -45,12 +46,18 @@ const AuthedIndexRoute = AuthedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthedRoute,
 } as any)
+const AuthedAddTeamRoute = AuthedAddTeamRouteImport.update({
+  id: '/add-team',
+  path: '/add-team',
+  getParentRoute: () => AuthedRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/confirm-email': typeof ConfirmEmailRoute
   '/logout': typeof LogoutRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
+  '/add-team': typeof AuthedAddTeamRoute
   '/': typeof AuthedIndexRoute
 }
 export interface FileRoutesByTo {
@@ -58,6 +65,7 @@ export interface FileRoutesByTo {
   '/logout': typeof LogoutRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
+  '/add-team': typeof AuthedAddTeamRoute
   '/': typeof AuthedIndexRoute
 }
 export interface FileRoutesById {
@@ -67,13 +75,20 @@ export interface FileRoutesById {
   '/logout': typeof LogoutRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
+  '/_authed/add-team': typeof AuthedAddTeamRoute
   '/_authed/': typeof AuthedIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/confirm-email' | '/logout' | '/signin' | '/signup' | '/'
+  fullPaths:
+    | '/confirm-email'
+    | '/logout'
+    | '/signin'
+    | '/signup'
+    | '/add-team'
+    | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/confirm-email' | '/logout' | '/signin' | '/signup' | '/'
+  to: '/confirm-email' | '/logout' | '/signin' | '/signup' | '/add-team' | '/'
   id:
     | '__root__'
     | '/_authed'
@@ -81,6 +96,7 @@ export interface FileRouteTypes {
     | '/logout'
     | '/signin'
     | '/signup'
+    | '/_authed/add-team'
     | '/_authed/'
   fileRoutesById: FileRoutesById
 }
@@ -136,14 +152,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedIndexRouteImport
       parentRoute: typeof AuthedRoute
     }
+    '/_authed/add-team': {
+      id: '/_authed/add-team'
+      path: '/add-team'
+      fullPath: '/add-team'
+      preLoaderRoute: typeof AuthedAddTeamRouteImport
+      parentRoute: typeof AuthedRoute
+    }
   }
 }
 
 interface AuthedRouteChildren {
+  AuthedAddTeamRoute: typeof AuthedAddTeamRoute
   AuthedIndexRoute: typeof AuthedIndexRoute
 }
 
 const AuthedRouteChildren: AuthedRouteChildren = {
+  AuthedAddTeamRoute: AuthedAddTeamRoute,
   AuthedIndexRoute: AuthedIndexRoute,
 }
 
