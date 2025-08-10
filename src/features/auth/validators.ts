@@ -19,7 +19,7 @@ export const SignupAuthSchema = z.object({
     .min(8, "Password must consist of at least 8 characters."),
   username: z
     .string()
-    .min(5, "USername must consist of at least 5 characters."),
+    .min(5, "Username must consist of at least 5 characters."),
 });
 
 // Signin

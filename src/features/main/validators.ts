@@ -2,7 +2,7 @@ import { formOptions } from "@tanstack/react-form";
 import { z } from "zod/v4";
 
 // Team
-export type TeamForm = z.infer<typeof TeamSchema>;
+export type TeamFormProps = z.infer<typeof TeamSchema>;
 
 export const TeamOpts = formOptions({
   defaultValues: {

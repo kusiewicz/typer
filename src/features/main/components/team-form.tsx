@@ -19,8 +19,9 @@ export const TeamForm = () => {
   const { mutate: addTeamMutate, error: addTeamMutateError } = useMutation({
     mutationFn: useServerFn(createTeam),
     onSuccess: () => {
-      alert("Dodano");
+      // TODO add toast
       router.invalidate();
+      form.reset();
     },
   });
 
