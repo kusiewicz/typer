@@ -23,19 +23,19 @@ export const profiles = pgTable("profiles", {
     .references(() => users.id, { onDelete: "cascade" }),
   username: text("username").notNull().unique(),
   isAdmin: boolean("is_admin").default(false).notNull(),
-});
+}).enableRLS();
 
 export const teams = pgTable("teams", {
   id: uuid("id").primaryKey().defaultRandom(),
   name: text("name").notNull().unique(),
   countryCode: text("country_code").notNull().unique(),
-});
+}).enableRLS();
 
 export const players = pgTable("players", {
   id: uuid("id").primaryKey().defaultRandom(),
   name: text("name").notNull().unique(),
   teamId: uuid("team_id").references(() => teams.id),
-});
+}).enableRLS();
 
 export const rooms = pgTable("rooms", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -45,7 +45,7 @@ export const rooms = pgTable("rooms", {
     .notNull(),
   inviteCode: text("invite_code").unique(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
-});
+}).enableRLS();
 
 export const matches = pgTable("matches", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -71,7 +71,7 @@ export const matches = pgTable("matches", {
   homeScore: integer("home_score"),
   awayScore: integer("away_score"),
   isFinished: boolean("is_finished").default(false),
-});
+}).enableRLS();
 
 // --- Tabele Pośredniczące i Typy ---
 export const roomMembers = pgTable(
@@ -88,7 +88,7 @@ export const roomMembers = pgTable(
   (table) => ({
     pk: primaryKey({ columns: [table.roomId, table.userId] }),
   })
-);
+).enableRLS();
 
 export const userMatchPredictions = pgTable(
   "user_match_predictions",
@@ -114,7 +114,7 @@ export const userMatchPredictions = pgTable(
     matchIdx: index("ump_match_id_idx").on(table.matchId),
     roomIdx: index("ump_room_id_idx").on(table.roomId),
   })
-);
+).enableRLS();
 
 export const userGlobalPredictions = pgTable("user_global_predictions", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -130,4 +130,4 @@ export const userGlobalPredictions = pgTable("user_global_predictions", {
   ),
   pointsAwarded: integer("points_awarded"),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
-});
+}).enableRLS();

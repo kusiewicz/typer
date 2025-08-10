@@ -1,13 +1,16 @@
 import { z } from "zod/v4";
 
-export const zodValidator = (schema: z.ZodSchema<any>) => {
-  return (data: FormData) => {
-    const result = schema.safeParse(Object.fromEntries(data.entries()));
+export const zodValidator = <T extends z.ZodSchema>(schema: T) => {
+  return (formData: FormData): z.infer<T> => {
+    const dataObject = Object.fromEntries(formData.entries());
+    const result = schema.safeParse(dataObject);
+
     if (result.success) {
-      return data;
+      return result.data;
     }
 
-    // todo make server validataion better
+    // TODO: Zwróć lepszy błąd, np. z informacjami o błędach walidacji
+    // console.error(result.error.flatten());
     throw new Error("Server error: Invalid payload");
   };
 };

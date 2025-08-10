@@ -3,7 +3,7 @@ import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useAppForm } from "~/components/app-form";
 import { Section } from "~/components/section";
-import { fetchUser, signinFn } from "~/features/auth/actions";
+import { fetchUser, signin } from "~/features/auth/actions";
 import { SigninAuthSchema, signinFormOpts } from "~/features/auth/validators";
 import { zodValidator } from "~/utils/zod/zod-validator-client";
 
@@ -29,7 +29,7 @@ function SignInPage() {
   });
 
   const { mutate: signInMutate, error: signInError } = useMutation({
-    mutationFn: useServerFn(signinFn),
+    mutationFn: useServerFn(signin),
   });
 
   return (

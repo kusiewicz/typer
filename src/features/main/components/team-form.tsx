@@ -1,22 +1,42 @@
-import { z } from "zod/v4";
 import { useAppForm } from "~/components/app-form";
-import { TeamFormOpts, TeamFormSchema } from "./validators";
+import { TeamOpts, TeamSchema } from "../validators";
 import { zodValidator } from "~/utils/zod/zod-validator-client";
+import { useServerFn } from "@tanstack/react-start";
+import { createTeam } from "../actions";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "@tanstack/react-router";
 
 export const TeamForm = () => {
+  const router = useRouter();
+
   const form = useAppForm({
-    ...TeamFormOpts,
+    ...TeamOpts,
     validators: {
-      onChange: zodValidator(TeamFormSchema),
+      onChange: zodValidator(TeamSchema),
+    },
+  });
+
+  const { mutate: addTeamMutate, error: addTeamMutateError } = useMutation({
+    mutationFn: useServerFn(createTeam),
+    onSuccess: () => {
+      alert("Dodano");
+      router.invalidate();
     },
   });
 
   return (
-    <form className="max-w-sm mx-auto">
+    <form
+      className="max-w-sm mx-auto"
+      action={(formData) => addTeamMutate({ data: formData })}
+    >
       <div className="mb-5">
         <form.AppField
           name="name"
           children={(field) => <field.TextField label="Team name" />}
+        />
+        <form.AppField
+          name="countryCode"
+          children={(field) => <field.TextField label="Country code" />}
         />
       </div>
       <form.Subscribe
@@ -36,6 +56,11 @@ export const TeamForm = () => {
           </button>
         )}
       </form.Subscribe>
+      {addTeamMutateError ? (
+        <em className="text-red-500 text-xs block mt-2" role="alert">
+          {addTeamMutateError.message}
+        </em>
+      ) : null}
     </form>
   );
 };

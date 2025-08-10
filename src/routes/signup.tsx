@@ -3,7 +3,7 @@ import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useAppForm } from "~/components/app-form";
 import { Section } from "~/components/section";
-import { fetchUser, signupFn } from "~/features/auth/actions";
+import { fetchUser, signup } from "~/features/auth/actions";
 import { SignupAuthSchema, signupFormOpts } from "~/features/auth/validators";
 import { zodValidator } from "~/utils/zod/zod-validator-client";
 
@@ -29,12 +29,12 @@ function SignUpPage() {
   });
 
   const { mutate: signupMutation, error: signupError } = useMutation({
-    mutationFn: useServerFn(signupFn),
+    mutationFn: useServerFn(signup),
   });
 
   return (
     <div className="w-full h-full flex justify-center items-center">
-      <Section title={<h1>Rejestracja</h1>}>
+      <Section title={<h1>Sign up</h1>}>
         <form
           className="max-w-sm mx-auto"
           method="post"
@@ -49,14 +49,14 @@ function SignUpPage() {
           <div className="mb-5">
             <form.AppField
               name="username"
-              children={(field) => <field.TextField label="Nick z wykopu" />}
+              children={(field) => <field.TextField label="Username" />}
             />
           </div>
           <div className="mb-5">
             <form.AppField
               name="password"
               children={(field) => (
-                <field.TextField label="Hasło" inputType="password" />
+                <field.TextField label="Password" inputType="password" />
               )}
             />
           </div>
