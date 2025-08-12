@@ -3,9 +3,11 @@ import { useFieldContext } from "./app-form";
 export const TextField = ({
   label,
   inputType,
+  maxLength,
 }: {
   label: string;
   inputType?: string;
+  maxLength?: number;
 }) => {
   const field = useFieldContext<string>();
 
@@ -25,6 +27,7 @@ export const TextField = ({
         onBlur={field.handleBlur}
         onChange={(e) => field.handleChange(e.target.value)}
         type={inputType}
+        maxLength={maxLength}
       />
       {!field.state.meta.isValid && !field.state.meta.isPristine && (
         <em className="text-red-500 text-xs" role="alert">

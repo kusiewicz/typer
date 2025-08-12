@@ -16,13 +16,15 @@ export const requireUser = async () => {
   return user;
 };
 
-export const requireAdmin = async (userId: string) => {
+export const requireAdmin = async () => {
+  const user = await requireUser();
+
   const profile = await db
     .select({
       isAdmin: profiles.isAdmin,
     })
     .from(profiles)
-    .where(eq(profiles.id, userId))
+    .where(eq(profiles.id, user.id))
     .limit(1);
 
   if (profile.length === 0 || !profile[0].isAdmin) {

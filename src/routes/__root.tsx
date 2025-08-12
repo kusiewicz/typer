@@ -83,6 +83,30 @@ function RootComponent() {
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  // React.useEffect(() => {
+  //   // Initialize Flowbite
+  //   const initFlowbite = async () => {
+  //     try {
+  //       const { initFlowbite: init } = await import("flowbite");
+  //       init();
+  //       console.log("Flowbite initialized successfully");
+  //     } catch (error) {
+  //       console.error("Failed to initialize Flowbite:", error);
+  //     }
+  //   };
+
+  //   // Wait for DOM to be ready
+  //   if (document.readyState === "loading") {
+  //     document.addEventListener("DOMContentLoaded", initFlowbite);
+  //   } else {
+  //     initFlowbite();
+  //   }
+
+  //   return () => {
+  //     document.removeEventListener("DOMContentLoaded", initFlowbite);
+  //   };
+  // }, []);
+
   return (
     <html>
       <head>
@@ -94,8 +118,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           <TanStackRouterDevtools position="bottom-right" />
           <ReactQueryDevtools buttonPosition="bottom-left" />
           <Scripts />
-          <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
         </div>
+        <script src="../../node_modules/flowbite/dist/flowbite.min.js" defer></script>
       </body>
     </html>
   );

@@ -36,6 +36,7 @@ function Layout() {
               });
             });
           }}
+          className="cursor-pointer"
         >
           Wyloguj sie
         </button>

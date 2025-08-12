@@ -1,20 +1,22 @@
 import { createServerFn } from "@tanstack/react-start";
-import { TeamSchema } from "./validators";
-import { zodValidator } from "~/utils/zod/zod-validator-server";
+import { RemoveTeamSchema, TeamSchema } from "./validators";
+import {
+  zodFormDataValidator,
+  zodValidator,
+} from "~/utils/zod/zod-validator-server";
 import { db } from "~/db";
 import { teams } from "~/db/schema";
 import { requireAdmin, requireUser } from "~/utils/auth/permissions";
+import { eq } from "drizzle-orm";
 
 export const createTeam = createServerFn({
   method: "POST",
 })
   .validator((data: FormData) => {
-    return zodValidator(TeamSchema)(data);
+    return zodFormDataValidator(TeamSchema)(data);
   })
   .handler(async ({ data }) => {
-    const user = await requireUser();
-
-    await requireAdmin(user.id);
+    await requireAdmin();
 
     try {
       await db.insert(teams).values({
@@ -41,3 +43,19 @@ export const getAllTeams = createServerFn({
     throw err;
   }
 });
+
+export const removeTeam = createServerFn({
+  method: "POST",
+})
+  .validator(zodValidator(RemoveTeamSchema))
+  .handler(async ({ data }) => {
+    try {
+      await requireAdmin();
+
+      await db.delete(teams).where(eq(teams.id, data.id));
+
+      return { success: true };
+    } catch (err) {
+      throw err;
+    }
+  });

@@ -1,18 +1,14 @@
 import { createServerFn } from "@tanstack/react-start";
 import { redirect } from "@tanstack/react-router";
-import { zodValidator } from "~/utils/zod/zod-validator-server";
+import { zodFormDataValidator } from "~/utils/zod/zod-validator-server";
 import { getSupabaseServerClient } from "~/utils/supabase/server";
-import {
-  SigninAuthSchema,
-  SignupAuthForm,
-  SignupAuthSchema,
-} from "./validators";
+import { SigninAuthSchema, SignupAuthSchema } from "./validators";
 
 export const signup = createServerFn({
   method: "POST",
 })
   .validator((data: FormData) => {
-    return zodValidator(SignupAuthSchema)(data);
+    return zodFormDataValidator(SignupAuthSchema)(data);
   })
   .handler(async ({ data }) => {
     const supabase = getSupabaseServerClient();
@@ -41,7 +37,7 @@ export const signin = createServerFn({
   method: "POST",
 })
   .validator((data: FormData) => {
-    return zodValidator(SigninAuthSchema)(data);
+    return zodFormDataValidator(SigninAuthSchema)(data);
   })
   .handler(async ({ data }) => {
     const supabase = getSupabaseServerClient();

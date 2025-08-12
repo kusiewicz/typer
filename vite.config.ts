@@ -1,6 +1,7 @@
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import { defineConfig } from "vite";
 import tsConfigPaths from "vite-tsconfig-paths";
+import flowbiteReact from "flowbite-react/plugin/vite";
 
 export default defineConfig({
   server: {
@@ -16,10 +17,7 @@ export default defineConfig({
       // "@supabase/supabase-js",
     ],
   },
-  plugins: [
-    tsConfigPaths({
-      projects: ["./tsconfig.json"],
-    }),
-    tanstackStart({}),
-  ],
+  plugins: [tsConfigPaths({
+    projects: ["./tsconfig.json"],
+  }), tanstackStart({}), flowbiteReact()],
 });
