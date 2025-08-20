@@ -1,23 +1,31 @@
 import { useAppForm } from "~/components/app-form";
 import { useServerFn } from "@tanstack/react-start";
-import { createTeam } from "../actions";
+import { createTeam, editTeam } from "../actions";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
-import { FieldGroupPasswordFields, TeamOpts } from "../validators";
+import { zodValidator } from "~/utils/zod/zod-validator-client";
+import { TeamFormProps, TeamSchema } from "../types";
+import { FieldGroupPasswordFields } from "~/components/field-groups/password-field-group";
 
-export const TeamForm = () => {
+export const EditTeamForm = ({ id, name, countryCode }: TeamFormProps) => {
   const router = useRouter();
 
   const form = useAppForm({
-    ...TeamOpts,
+    defaultValues: {
+      name,
+      countryCode,
+    },
+    validators: {
+      onChange: zodValidator(TeamSchema),
+    },
   });
 
   const {
-    mutate: addTeamMutate,
-    error: addTeamMutateError,
+    mutate: editTeamMutate,
+    error: editTeamMutateError,
     isPending,
   } = useMutation({
-    mutationFn: useServerFn(createTeam),
+    mutationFn: useServerFn(editTeam),
     onSuccess: () => {
       // TODO add toast
       router.invalidate();
@@ -29,7 +37,12 @@ export const TeamForm = () => {
     <form.AppForm>
       <form
         className="max-w-sm mx-auto"
-        action={(formData) => addTeamMutate({ data: formData })}
+        action={(formData) => {
+          formData.append("id", id);
+          editTeamMutate({
+            data: formData,
+          });
+        }}
       >
         <div className="mb-5">
           <FieldGroupPasswordFields
@@ -38,11 +51,11 @@ export const TeamForm = () => {
           />
         </div>
         <form.SubscribeButton>
-          {isPending ? "Loading..." : "Add team"}
+          {isPending ? "Loading..." : "Edit team"}
         </form.SubscribeButton>
-        {addTeamMutateError ? (
+        {editTeamMutateError ? (
           <em className="text-red-500 text-xs block mt-2" role="alert">
-            {addTeamMutateError.message}
+            {editTeamMutateError.message}
           </em>
         ) : null}
       </form>
