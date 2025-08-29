@@ -1,6 +1,6 @@
 import { useAppForm } from "~/components/app-form";
 import { useServerFn } from "@tanstack/react-start";
-import { createTeam, editTeam } from "../actions";
+import { editTeam } from "../actions";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
 import { zodValidator } from "~/utils/zod/zod-validator-client";

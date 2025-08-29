@@ -1,10 +1,5 @@
-import {
-  createFileRoute,
-  Outlet,
-  redirect,
-  useNavigate,
-} from "@tanstack/react-router";
-import { getSupabaseBrowserClient } from "~/utils/supabase/client";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { Navbar } from "~/features/main/components/navbar";
 
 export const Route = createFileRoute("/_authed")({
   beforeLoad: ({ context }) => {
@@ -18,30 +13,10 @@ export const Route = createFileRoute("/_authed")({
 });
 
 function Layout() {
-  const supabase = getSupabaseBrowserClient();
-  const navigate = useNavigate();
-  const { user } = Route.useRouteContext();
-
   return (
     <>
-      <header className="flex justify-between items-center p-4">
-        <h1 className="text-black text-xl">
-          {user?.email && `Hello ${user.email}`}
-        </h1>
-        <button
-          onClick={async () => {
-            await supabase.auth.signOut().then(() => {
-              navigate({
-                to: "/",
-              });
-            });
-          }}
-          className="cursor-pointer"
-        >
-          Wyloguj sie
-        </button>
-      </header>
-      <div className="flex flex-col items-center justify-center">
+      <Navbar />
+      <div className="flex flex-col items-center justify-center p-4">
         <Outlet />
       </div>
     </>
