@@ -1,11 +1,11 @@
-import { useAppForm } from "~/components/app-form";
+import { useAppForm } from "~/shared/hooks/app-form";
 import { useServerFn } from "@tanstack/react-start";
 import { createTeam } from "../actions";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
 import { zodValidator } from "~/utils/zod/zod-validator-client";
 import { TeamSchema } from "../types";
-import { FieldGroupPasswordFields } from "~/components/field-groups/password-field-group";
+import { FieldGroupPasswordFields } from "~/shared/ui/form-password-field-group";
 
 export const AddTeamForm = () => {
   const router = useRouter();

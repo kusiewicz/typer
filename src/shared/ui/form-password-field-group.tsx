@@ -1,4 +1,4 @@
-import { withFieldGroup } from "~/components/app-form";
+import { withFieldGroup } from "~/shared/hooks/app-form";
 
 export const FieldGroupPasswordFields = withFieldGroup({
   defaultValues: {

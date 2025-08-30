@@ -1,4 +1,4 @@
-import { useAuth } from "~/features/auth/hooks/useAuth";
+import { useAuth } from "~/features/auth/hooks/use-auth";
 
 export const LogoutButton = () => {
   const { handleLogout } = useAuth();

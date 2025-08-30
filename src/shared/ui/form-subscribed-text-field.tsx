@@ -1,4 +1,5 @@
-import { useFieldContext } from "./app-form";
+import { useFieldContext } from "../hooks/app-form";
+import { ErrorField } from "./form-error-field";
 
 export const TextField = ({
   label,
@@ -30,9 +31,7 @@ export const TextField = ({
         maxLength={maxLength}
       />
       {!field.state.meta.isValid && !field.state.meta.isPristine && (
-        <em className="text-red-500 text-xs" role="alert">
-          {field.state.meta.errors.join(", ")}
-        </em>
+        <ErrorField>{field.state.meta.errors.join(", ")}</ErrorField>
       )}
     </>
   );

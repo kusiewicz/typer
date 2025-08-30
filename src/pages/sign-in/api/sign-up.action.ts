@@ -2,7 +2,8 @@ import { createServerFn } from "@tanstack/react-start";
 import { redirect } from "@tanstack/react-router";
 import { zodFormDataValidator } from "~/utils/zod/zod-validator-server";
 import { getSupabaseServerClient } from "~/utils/supabase/server";
-import { SigninAuthSchema, SignupAuthSchema } from "./validators";
+import { SigninAuthSchema, SignupAuthSchema } from "~/features/auth/validators";
+import { AuthService } from "~/features/auth/models/auth-service";
 
 export const signup = createServerFn({
   method: "POST",
@@ -12,16 +13,13 @@ export const signup = createServerFn({
   })
   .handler(async ({ data }) => {
     const supabase = getSupabaseServerClient();
+    const authService = new AuthService(supabase);
 
-    const { error } = await supabase.auth.signUp({
+    const { error } = await authService.signUp({
       email: data.email,
       password: data.password,
-      options: {
-        emailRedirectTo: "http://localhost:3000/signin",
-        data: {
-          username: data.username,
-        },
-      },
+      username: data.username,
+      emailRedirectTo: "",
     });
 
     if (error) {
@@ -41,8 +39,9 @@ export const signin = createServerFn({
   })
   .handler(async ({ data }) => {
     const supabase = getSupabaseServerClient();
+    const authService = new AuthService(supabase);
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { error } = await authService.signIn({
       email: data.email,
       password: data.password,
     });
@@ -55,32 +54,3 @@ export const signin = createServerFn({
       to: "/",
     });
   });
-
-export const fetchUser = createServerFn({ method: "GET" }).handler(async () => {
-  const supabase = getSupabaseServerClient();
-  const { data, error: _error } = await supabase.auth.getUser();
-
-  if (!data.user?.email) {
-    return null;
-  }
-
-  return {
-    email: data.user.email,
-  };
-});
-
-export const logout = createServerFn().handler(async () => {
-  const supabase = getSupabaseServerClient();
-  const { error } = await supabase.auth.signOut();
-
-  if (error) {
-    return {
-      error: true,
-      message: error.message,
-    };
-  }
-
-  throw redirect({
-    href: "/",
-  });
-});

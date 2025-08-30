@@ -1,8 +1,8 @@
-interface Spacer {
+interface SpacerProps {
   size?: "small" | "medium" | "large";
 }
 
-export const Spacer = ({ size = "medium" }: Spacer) => {
+export const Spacer = ({ size = "medium" }: SpacerProps) => {
   const sizeClass = {
     small: "h-2",
     medium: "h-4",

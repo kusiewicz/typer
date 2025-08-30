@@ -1,5 +1,5 @@
-import { AdminDropdown } from "./AdminDropdown";
-import { LogoutButton } from "./LogoutButton";
+import { AdminDropdown } from "./admin-dropdown";
+import { LogoutButton } from "./logout-button";
 
 export const Navbar = () => {
   return (

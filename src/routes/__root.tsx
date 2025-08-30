@@ -13,7 +13,7 @@ import { DefaultCatchBoundary } from "~/components/default-catch-boundary";
 import { NotFound } from "~/components/not-found";
 import appCss from "~/styles/app.css?url";
 import { seo } from "~/utils/seo";
-import { fetchUser } from "~/features/auth/actions";
+import { fetchUser } from "~/shared/api/fetch-user.action";
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
@@ -119,7 +119,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           <ReactQueryDevtools buttonPosition="bottom-left" />
           <Scripts />
         </div>
-        <script src="../../node_modules/flowbite/dist/flowbite.min.js" defer></script>
+        <script
+          src="../../node_modules/flowbite/dist/flowbite.min.js"
+          defer
+        ></script>
       </body>
     </html>
   );

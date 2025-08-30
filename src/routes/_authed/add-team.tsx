@@ -3,7 +3,7 @@ import { getAllTeams, removeTeam } from "~/features/main/team-form/actions";
 import { AddTeamForm } from "~/features/main/team-form/form/add-team-form";
 import { createColumnHelper } from "@tanstack/react-table";
 import { Table, COLUMN_SIZES } from "~/components/table";
-import { Spacer } from "~/components/spacer";
+import { Spacer } from "~/shared/ui/spacer";
 import { Edit, Trash2 } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";

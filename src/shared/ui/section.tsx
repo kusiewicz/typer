@@ -1,12 +1,12 @@
 import { ReactNode } from "react";
 import { Spacer } from "./spacer";
 
-interface Section {
+interface SectionProps {
   title?: ReactNode;
   children: ReactNode;
 }
 
-export const Section = ({ title, children }: Section) => {
+export const Section = ({ title, children }: SectionProps) => {
   const Title = () => {
     return title ? (
       <>
