@@ -9,7 +9,6 @@ interface SignUpProps {
   email: string;
   password: string;
   username: string;
-  emailRedirectTo: string;
 }
 
 interface SignInProps {
@@ -18,17 +17,19 @@ interface SignInProps {
 }
 
 export class AuthService implements AuthServiceProps {
+  private readonly defaultSignUpOptions = {
+    emailRedirectTo: "",
+  };
+
   constructor(private supabase: SupabaseClient) {}
 
-  async signUp({ email, password, username, emailRedirectTo }: SignUpProps) {
+  async signUp(credentials: SignUpProps) {
     return await this.supabase.auth.signUp({
-      email,
-      password,
+      email: credentials.email,
+      password: credentials.password,
       options: {
-        emailRedirectTo,
-        data: {
-          username,
-        },
+        emailRedirectTo: this.defaultSignUpOptions.emailRedirectTo,
+        data: { username: credentials.username },
       },
     });
   }

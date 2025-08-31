@@ -1,5 +1,5 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { SignUpPage } from "~/pages/sign-in/sign-up.page";
+import { SignUpPage } from "~/pages/sign-in-up/sign-up.page";
 import { fetchUser } from "~/shared/api/fetch-user.action";
 
 export const Route = createFileRoute("/signup")({

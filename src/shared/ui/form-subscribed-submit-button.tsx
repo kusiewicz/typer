@@ -1,7 +1,14 @@
+import { ReactNode } from "react";
 import { useFormContext } from "../hooks/app-form";
 import { SubmitButton as SubmitButtonBase } from "~/shared/ui/submit-button";
 
-export const SubmitButton = ({ className }: { className?: string }) => {
+export const SubmitButton = ({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) => {
   const form = useFormContext();
 
   return (
@@ -17,7 +24,9 @@ export const SubmitButton = ({ className }: { className?: string }) => {
           disabled={!canSubmit || isPristine}
           isLoading={isSubmitting}
           className={className}
-        />
+        >
+          {children}
+        </SubmitButtonBase>
       )}
     </form.Subscribe>
   );

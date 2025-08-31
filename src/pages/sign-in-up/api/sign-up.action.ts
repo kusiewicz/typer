@@ -15,12 +15,13 @@ export const signup = createServerFn({
     const supabase = getSupabaseServerClient();
     const authService = new AuthService(supabase);
 
-    const { error } = await authService.signUp({
+    const credentials = {
       email: data.email,
       password: data.password,
       username: data.username,
-      emailRedirectTo: "",
-    });
+    };
+
+    const { error } = await authService.signUp(credentials);
 
     if (error) {
       throw error;

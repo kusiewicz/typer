@@ -1,18 +1,17 @@
+import { ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface SubmitButtonProps {
   disabled: boolean;
   isLoading: boolean;
-  loadingText?: string;
-  submitText?: string;
+  children: ReactNode;
   className?: string;
 }
 
 export const SubmitButton = ({
+  children,
   disabled,
   isLoading,
-  loadingText = "Loading...",
-  submitText = "Submit",
   className,
 }: SubmitButtonProps) => {
   const classes = twMerge(
@@ -22,7 +21,7 @@ export const SubmitButton = ({
 
   return (
     <button type="submit" disabled={isLoading || disabled} className={classes}>
-      {isLoading ? loadingText : submitText}
+      {children}
     </button>
   );
 };

@@ -1,26 +1,15 @@
-import { useAppForm } from "~/shared/hooks/app-form";
-import { SignupAuthSchema, signupFormOpts } from "~/features/auth/validators";
-import { zodValidator } from "~/utils/zod/zod-validator-client";
-import { useAuthForm } from "../hooks/use-auth-form";
-import { Spacer } from "~/shared/ui/spacer";
+import { useSignUpForm } from "../hooks/use-auth-form";
 import { ErrorField } from "~/shared/ui/form-error-field";
 
 export const SignUpForm = () => {
-  const form = useAppForm({
-    ...signupFormOpts,
-    validators: {
-      onChange: zodValidator(SignupAuthSchema),
-    },
-  });
-
-  const { mutate: signupMutation, error: signupError } = useAuthForm("signUp");
+  const { form, handleSubmit, error: signupError, isPending } = useSignUpForm();
 
   return (
     <form.AppForm>
       <form
         className="max-w-sm mx-auto"
         method="post"
-        action={(formData) => signupMutation({ data: formData })}
+        action={handleSubmit}
       >
         <form.FieldsContainer>
           <form.AppField
@@ -39,7 +28,10 @@ export const SignUpForm = () => {
           />
         </form.FieldsContainer>
 
-        <form.SubmitButton className="my-2" />
+        <form.SubmitButton className="my-2">
+          {" "}
+          {isPending ? "Loading..." : "Submit"}
+        </form.SubmitButton>
 
         {signupError ? <ErrorField>{signupError.message}</ErrorField> : null}
       </form>
