@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { useFormContext } from "../hooks/app-form";
 import { SubmitButton as SubmitButtonBase } from "~/shared/ui/submit-button";
 
+// TODO Reuzywane w kazdym formularzu poprzez <form.SubmitButton>
 export const SubmitButton = ({
   children,
   className,

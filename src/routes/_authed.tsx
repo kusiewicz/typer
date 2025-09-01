@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
-import { Navbar } from "~/features/main/components/navbar";
+import { MainLayout } from "~/layouts/main.layout";
 
 export const Route = createFileRoute("/_authed")({
   beforeLoad: ({ context }) => {
@@ -13,12 +13,5 @@ export const Route = createFileRoute("/_authed")({
 });
 
 function Layout() {
-  return (
-    <>
-      <Navbar />
-      <div className="flex flex-col items-center justify-center p-4">
-        <Outlet />
-      </div>
-    </>
-  );
+  return <MainLayout />;
 }

@@ -9,11 +9,11 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import * as React from "react";
 import type { QueryClient } from "@tanstack/react-query";
-import { DefaultCatchBoundary } from "~/components/default-catch-boundary";
-import { NotFound } from "~/components/not-found";
+import { DefaultCatchBoundary } from "~/shared/ui/default-catch-boundary";
+import { NotFound } from "~/shared/ui/not-found";
 import appCss from "~/styles/app.css?url";
 import { seo } from "~/utils/seo";
-import { fetchUser } from "~/shared/api/fetch-user.action";
+import { fetchUser } from "~/entities/user/api/fetch-user.action";
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;

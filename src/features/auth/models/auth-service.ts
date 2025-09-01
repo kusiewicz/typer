@@ -16,6 +16,7 @@ interface SignInProps {
   password: string;
 }
 
+// TODO Wedle tego arktykulu o modularyzacji
 export class AuthService implements AuthServiceProps {
   private readonly defaultSignUpOptions = {
     emailRedirectTo: "",

@@ -1,9 +1,10 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
+import { ConfirmEmailPage } from "~/pages/confirm-email.page";
 
-export const Route = createFileRoute('/confirm-email')({
-  component: RouteComponent,
-})
+export const Route = createFileRoute("/confirm-email")({
+  component: ConfirmEmail,
+});
 
-function RouteComponent() {
-  return <div>Sprawdź skrzynkę pocztową i potwierdź swój email</div>
+function ConfirmEmail() {
+  return <ConfirmEmailPage />;
 }

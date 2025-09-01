@@ -1,6 +1,8 @@
 import { useFieldContext } from "../hooks/app-form";
 import { ErrorField } from "./form-error-field";
 
+// TODO Te pola uzywane pozniej sa elegancko poprzez kontenst formularza
+//  children={(field) => <field.TextField label="Email" />}
 export const TextField = ({
   label,
   inputType,

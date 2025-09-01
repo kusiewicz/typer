@@ -1,4 +1,4 @@
-import { getSupabaseBrowserClient } from "~/utils/supabase/client";
+import { getSupabaseBrowserClient } from "~/shared/utils/supabase/client";
 import { AuthService } from "../models/auth-service";
 
 export const useAuth = () => {
