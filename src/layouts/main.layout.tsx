@@ -1,5 +1,5 @@
 import { Outlet } from "@tanstack/react-router";
-import { Navbar } from "~/widgets/navbar";
+import { Navbar } from "~/widgets/navbar/navbar";
 
 export const MainLayout = () => (
   <>

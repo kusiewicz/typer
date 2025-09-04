@@ -1,6 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { SignInPage } from "~/pages/sign-in.page";
-import { fetchUser } from "~/features/auth/lib/auth.guard";
+import { fetchUser } from "~/entities/user/api/fetch-user.action";
+import { SignInPage } from "~/pages/sign-in-up/sign-in.page";
 
 export const Route = createFileRoute("/signin")({
   beforeLoad: async () => {
@@ -12,9 +12,5 @@ export const Route = createFileRoute("/signin")({
       });
     }
   },
-  component: SignIn,
+  component: SignInPage,
 });
-
-function SignIn() {
-  return <SignInPage />;
-}

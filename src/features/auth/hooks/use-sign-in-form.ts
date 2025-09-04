@@ -27,9 +27,12 @@ export const useSignInForm = () => {
       { data: formData },
       {
         onSuccess: () => {
-          // TODO add toast
+          // TODO add toast (global in provider maybe)
           router.invalidate();
           form.reset();
+        },
+        onError: () => {
+          console.log("error");
         },
       }
     );

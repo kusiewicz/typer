@@ -12,7 +12,7 @@ import type { QueryClient } from "@tanstack/react-query";
 import { DefaultCatchBoundary } from "~/shared/ui/default-catch-boundary";
 import { NotFound } from "~/shared/ui/not-found";
 import appCss from "~/styles/app.css?url";
-import { seo } from "~/utils/seo";
+import { seo } from "~/seo";
 import { fetchUser } from "~/entities/user/api/fetch-user.action";
 
 export const Route = createRootRouteWithContext<{

@@ -25,6 +25,59 @@
 
 ## 📁 Organizacja Kodu
 
+### Konwencje Nazewnictwa
+
+#### **Pliki i Foldery**
+```bash
+# ✅ DOBRZE - kebab-case dla plików i folderów
+src/
+├── features/
+│   ├── add-team/           # kebab-case
+│   │   ├── hooks/
+│   │   │   └── use-add-team-form.ts    # kebab-case
+│   │   └── ui/
+│   │       └── add-team-form.tsx       # kebab-case
+│   └── edit-team/
+│       ├── hooks/
+│       │   └── use-edit-team-form.ts   # kebab-case
+│       └── ui/
+│           └── edit-team-form.tsx      # kebab-case
+├── entities/
+│   └── team/
+│       ├── api/
+│       │   ├── create-team.action.ts    # kebab-case
+│       │   ├── edit-team.action.ts      # kebab-case
+│       │   └── delete-team.action.ts    # kebab-case
+│       └── model/
+│           └── schema.ts                # kebab-case
+└── shared/
+    └── ui/
+        └── delete-team-button.tsx       # kebab-case
+```
+
+#### **Komponenty i Funkcje**
+```typescript
+// ✅ DOBRZE - PascalCase dla komponentów
+export const AddTeamForm = () => { ... }
+export const EditTeamForm = () => { ... }
+export const DeleteTeamButton = () => { ... }
+
+// ✅ DOBRZE - camelCase dla funkcji i hooków
+export const useAddTeamForm = () => { ... }
+export const useEditTeamForm = () => { ... }
+export const useDeleteTeam = () => { ... }
+
+// ✅ DOBRZE - kebab-case dla plików
+// add-team-form.tsx, edit-team-form.tsx, delete-team-button.tsx
+```
+
+#### **Zasady:**
+- **Pliki:** `kebab-case.tsx` / `kebab-case.ts`
+- **Komponenty:** `PascalCase`
+- **Funkcje/Hooki:** `camelCase`
+- **Foldery:** `kebab-case`
+- **Stałe:** `UPPER_SNAKE_CASE`
+
 ### Struktura Folderów
 ```
 src/

@@ -9,9 +9,5 @@ export const Route = createFileRoute("/_authed")({
       });
     }
   },
-  component: Layout,
+  component: MainLayout,
 });
-
-function Layout() {
-  return <MainLayout />;
-}

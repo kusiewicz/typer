@@ -1,14 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { getAllTeams } from "~/entities/team/api/get-teams.action";
-
+import { teamsQueryOptions } from "~/entities/team/api/get-teams.query";
 import { TeamsPage } from "~/pages/teams.page";
 
-// TODO only admin should be able to do this
 export const Route = createFileRoute("/_authed/teams")({
-  component: AddTeam,
-  loader: async () => getAllTeams(),
+  component: TeamsPage,
+  loader: ({ context }) => {
+    return context.queryClient.ensureQueryData(teamsQueryOptions);
+  },
 });
-
-function AddTeam() {
-  return <TeamsPage />;
-}

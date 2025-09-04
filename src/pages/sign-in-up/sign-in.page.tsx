@@ -1,6 +1,6 @@
 import { Section } from "~/shared/ui/section";
-import { SignInForm } from "../features/auth/ui/sign-in-form";
-import { FormFooter } from "../features/auth/ui/form-footer";
+import { SignInForm } from "../../features/auth/ui/sign-in-form";
+import { FormFooter } from "./ui/form-footer";
 import { Spacer } from "~/shared/ui/spacer";
 
 export const SignInPage = () => (
