@@ -1,3 +1,5 @@
+import { Link } from "@tanstack/react-router";
+
 export const AdminDropdown = () => {
   return (
     <div className="relative group">
@@ -19,6 +21,18 @@ export const AdminDropdown = () => {
       </button>
       <div className="absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-700 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
         <div className="py-1">
+          <Link
+            to="/teams"
+            className="block px-4 py-2 text-sm text-white hover:bg-gray-700 transition-colors"
+          >
+            Teams
+          </Link>
+          <Link
+            to="/stages"
+            className="block px-4 py-2 text-sm text-white hover:bg-gray-700 transition-colors"
+          >
+            Stages
+          </Link>
           <div className="px-4 py-2 text-sm text-white hover:bg-gray-700 cursor-pointer transition-colors">
             Users
           </div>

@@ -1,0 +1,21 @@
+import { createServerFn } from "@tanstack/react-start";
+import { db } from "~/db";
+import { stages } from "~/db/schema";
+import { requireUser } from "~/features/auth/lib/auth.guard";
+
+export const getAllStages = createServerFn({
+  method: "GET",
+}).handler(async () => {
+  try {
+    await requireUser();
+
+    const stagesData = await db.select().from(stages);
+
+    return { data: stagesData, success: true };
+  } catch (err) {
+    if (err instanceof Error) {
+      throw err;
+    }
+    throw new Error("Failed to fetch stages. Please try again.");
+  }
+});

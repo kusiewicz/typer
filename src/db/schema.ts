@@ -47,8 +47,28 @@ export const rooms = pgTable("rooms", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
 }).enableRLS();
 
+export const stages = pgTable("stages", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  name: text("name").notNull().unique(),
+  multiplier: decimal("multiplier", { precision: 4, scale: 2 }).notNull().$type<number>(),
+});
+
+export const matchDays = pgTable("match_days", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  name: text("name").notNull(),
+  date: timestamp("date", { withTimezone: true }).notNull(),
+  stageId: uuid("stage_id")
+    .references(() => stages.id)
+    .notNull(),
+  isActive: boolean("is_active").default(true).notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+});
+
 export const matches = pgTable("matches", {
   id: uuid("id").primaryKey().defaultRandom(),
+  matchDayId: uuid("match_day_id")
+    .references(() => matchDays.id)
+    .notNull(),
   homeTeamId: uuid("home_team_id")
     .references(() => teams.id)
     .notNull(),
@@ -56,18 +76,6 @@ export const matches = pgTable("matches", {
     .references(() => teams.id)
     .notNull(),
   matchTime: timestamp("match_time", { withTimezone: true }).notNull(),
-  stage: text("stage", {
-    enum: [
-      "group",
-      "round_32",
-      "round_16",
-      "round_8",
-      "quarter",
-      "semi",
-      "final",
-    ],
-  }).notNull(),
-  multiplier: decimal("multiplier", { precision: 3, scale: 2 }).notNull(),
   homeScore: integer("home_score"),
   awayScore: integer("away_score"),
   isFinished: boolean("is_finished").default(false),

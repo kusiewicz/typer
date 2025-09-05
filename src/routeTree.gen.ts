@@ -15,6 +15,7 @@ import { Route as ConfirmEmailRouteImport } from './routes/confirm-email'
 import { Route as AuthedRouteImport } from './routes/_authed'
 import { Route as AuthedIndexRouteImport } from './routes/_authed/index'
 import { Route as AuthedTeamsRouteImport } from './routes/_authed/teams'
+import { Route as AuthedStagesRouteImport } from './routes/_authed/stages'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -45,11 +46,17 @@ const AuthedTeamsRoute = AuthedTeamsRouteImport.update({
   path: '/teams',
   getParentRoute: () => AuthedRoute,
 } as any)
+const AuthedStagesRoute = AuthedStagesRouteImport.update({
+  id: '/stages',
+  path: '/stages',
+  getParentRoute: () => AuthedRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/confirm-email': typeof ConfirmEmailRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
+  '/stages': typeof AuthedStagesRoute
   '/teams': typeof AuthedTeamsRoute
   '/': typeof AuthedIndexRoute
 }
@@ -57,6 +64,7 @@ export interface FileRoutesByTo {
   '/confirm-email': typeof ConfirmEmailRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
+  '/stages': typeof AuthedStagesRoute
   '/teams': typeof AuthedTeamsRoute
   '/': typeof AuthedIndexRoute
 }
@@ -66,20 +74,28 @@ export interface FileRoutesById {
   '/confirm-email': typeof ConfirmEmailRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
+  '/_authed/stages': typeof AuthedStagesRoute
   '/_authed/teams': typeof AuthedTeamsRoute
   '/_authed/': typeof AuthedIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/confirm-email' | '/signin' | '/signup' | '/teams' | '/'
+  fullPaths:
+    | '/confirm-email'
+    | '/signin'
+    | '/signup'
+    | '/stages'
+    | '/teams'
+    | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/confirm-email' | '/signin' | '/signup' | '/teams' | '/'
+  to: '/confirm-email' | '/signin' | '/signup' | '/stages' | '/teams' | '/'
   id:
     | '__root__'
     | '/_authed'
     | '/confirm-email'
     | '/signin'
     | '/signup'
+    | '/_authed/stages'
     | '/_authed/teams'
     | '/_authed/'
   fileRoutesById: FileRoutesById
@@ -135,15 +151,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedTeamsRouteImport
       parentRoute: typeof AuthedRoute
     }
+    '/_authed/stages': {
+      id: '/_authed/stages'
+      path: '/stages'
+      fullPath: '/stages'
+      preLoaderRoute: typeof AuthedStagesRouteImport
+      parentRoute: typeof AuthedRoute
+    }
   }
 }
 
 interface AuthedRouteChildren {
+  AuthedStagesRoute: typeof AuthedStagesRoute
   AuthedTeamsRoute: typeof AuthedTeamsRoute
   AuthedIndexRoute: typeof AuthedIndexRoute
 }
 
 const AuthedRouteChildren: AuthedRouteChildren = {
+  AuthedStagesRoute: AuthedStagesRoute,
   AuthedTeamsRoute: AuthedTeamsRoute,
   AuthedIndexRoute: AuthedIndexRoute,
 }
