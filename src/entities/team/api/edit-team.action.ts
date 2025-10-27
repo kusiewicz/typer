@@ -9,7 +9,7 @@ import { requireAdmin } from "~/features/auth/lib/auth.guard";
 export const editTeam = createServerFn({
   method: "POST",
 })
-  .validator((data: FormData) => {
+  .inputValidator((data: FormData) => {
     return zodFormDataValidator(EditTeamSchema)(data);
   })
   .handler(async ({ data }) => {

@@ -8,7 +8,7 @@ import { SigninAuthSchema } from "../types";
 export const signin = createServerFn({
   method: "POST",
 })
-  .validator((data: FormData) => {
+  .inputValidator((data: FormData) => {
     return zodFormDataValidator(SigninAuthSchema)(data);
   })
   .handler(async ({ data }) => {

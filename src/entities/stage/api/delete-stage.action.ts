@@ -9,7 +9,7 @@ import { requireAdmin } from "~/features/auth/lib/auth.guard";
 export const deleteStage = createServerFn({
   method: "POST",
 })
-  .validator(zodValidator(RemoveStageSchema))
+  .inputValidator(zodValidator(RemoveStageSchema))
   .handler(async ({ data }) => {
     try {
       await requireAdmin();

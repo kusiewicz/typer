@@ -9,7 +9,7 @@ import { requireAdmin } from "~/features/auth/lib/auth.guard";
 export const createStage = createServerFn({
   method: "POST",
 })
-  .validator((data: FormData) => {
+  .inputValidator((data: FormData) => {
     return zodFormDataValidator(StageSchema)(data);
   })
   .handler(async ({ data }) => {

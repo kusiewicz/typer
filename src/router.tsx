@@ -1,34 +1,31 @@
 import { QueryClient } from "@tanstack/react-query";
-import { createRouter as createTanStackRouter } from "@tanstack/react-router";
-import { routerWithQueryClient } from "@tanstack/react-router-with-query";
+import { createRouter } from "@tanstack/react-router";
+import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query";
 import { routeTree } from "./routeTree.gen";
-import { DefaultCatchBoundary } from "./shared/ui/default-catch-boundary";
 import { NotFound } from "./shared/ui/not-found";
+import { DefaultCatchBoundary } from "./shared/ui/default-catch-boundary";
+import { getGlobalStartContext } from "@tanstack/react-start";
 
-// NOTE: Most of the integration code found here is experimental and will
-// definitely end up in a more streamlined API in the future. This is just
-// to show what's possible with the current APIs.
-
-//TODO This is the file that will dictate the behavior of TanStack Router used within Start. Here, you can configure everything from the default preloading functionality to caching staleness.
-// https://tanstack.com/start/latest/docs/framework/react/learn-the-basics#it-all-starts-with-the-router
-export function createRouter() {
+export function getRouter() {
   const queryClient = new QueryClient();
 
-  return routerWithQueryClient(
-    createTanStackRouter({
-      routeTree,
-      scrollRestoration: true,
-      context: { queryClient },
-      defaultPreload: "intent",
-      defaultErrorComponent: DefaultCatchBoundary,
-      defaultNotFoundComponent: () => <NotFound />,
-    }),
-    queryClient
-  );
+  const router = createRouter({
+    routeTree,
+    context: { queryClient },
+    defaultPreload: "intent",
+    defaultErrorComponent: DefaultCatchBoundary,
+    defaultNotFoundComponent: () => <NotFound />,
+  });
+  setupRouterSsrQueryIntegration({
+    router,
+    queryClient,
+  });
+
+  return router;
 }
 
 declare module "@tanstack/react-router" {
   interface Register {
-    router: ReturnType<typeof createRouter>;
+    router: ReturnType<typeof getRouter>;
   }
 }

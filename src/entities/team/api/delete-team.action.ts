@@ -9,7 +9,7 @@ import { requireAdmin } from "~/features/auth/lib/auth.guard";
 export const deleteTeam = createServerFn({
   method: "POST",
 })
-  .validator(zodValidator(RemoveTeamSchema))
+  .inputValidator(zodValidator(RemoveTeamSchema))
   .handler(async ({ data }) => {
     try {
       await requireAdmin();
