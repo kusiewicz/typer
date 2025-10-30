@@ -11,11 +11,7 @@ export default defineConfig({
   //https://github.com/TanStack/router/issues/4409
   ssr: {
     noExternal: [
-      "@tanstack/react-form",
-      // "@supabase/auth-ui-react",
-      // "@supabase/auth-ui-shared",
-      // "@supabase/ssr",
-      // "@supabase/supabase-js",
+      // "@tanstack/react-form",
     ],
   },
   plugins: [

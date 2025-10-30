@@ -4,17 +4,27 @@ import { db } from "~/db";
 import { teams } from "~/db/schema";
 import { eq, and, ne } from "drizzle-orm";
 import { EditTeamSchema } from "../model/schema";
-import { requireAdmin } from "~/features/auth/lib/auth.guard";
+import { adminMiddleware } from "~/features/auth/middlewares/check-admin.middleware";
 
 export const editTeam = createServerFn({
   method: "POST",
 })
+  .middleware([adminMiddleware])
   .inputValidator((data: FormData) => {
     return zodFormDataValidator(EditTeamSchema)(data);
   })
   .handler(async ({ data }) => {
     try {
-      await requireAdmin();
+      // Check if team exists
+      const team = await db
+        .select({ id: teams.id })
+        .from(teams)
+        .where(eq(teams.id, data.id))
+        .limit(1);
+
+      if (team.length === 0) {
+        throw new Error("Team not found.");
+      }
 
       const existingName = await db
         .select()

@@ -4,17 +4,17 @@ import { db } from "~/db";
 import { teams } from "~/db/schema";
 import { eq, or } from "drizzle-orm";
 import { TeamSchema } from "../model/schema";
-import { requireAdmin } from "~/features/auth/lib/auth.guard";
+
+import { adminMiddleware } from "~/features/auth/middlewares/check-admin.middleware";
 
 export const createTeam = createServerFn({
   method: "POST",
 })
+  .middleware([adminMiddleware])
   .inputValidator((data: FormData) => {
     return zodFormDataValidator(TeamSchema)(data);
   })
   .handler(async ({ data }) => {
-    await requireAdmin();
-
     try {
       const existingTeam = await db
         .select()

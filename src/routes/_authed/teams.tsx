@@ -4,7 +4,7 @@ import { TeamsPage } from "~/pages/teams.page";
 
 export const Route = createFileRoute("/_authed/teams")({
   component: TeamsPage,
-  loader: ({ context }) => {
-    return context.queryClient.ensureQueryData(teamsQueryOptions);
+  loader: async ({ context }) => {
+    return await context.queryClient.ensureQueryData(teamsQueryOptions);
   },
 });

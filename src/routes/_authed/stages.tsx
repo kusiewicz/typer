@@ -4,7 +4,7 @@ import { StagesPage } from "~/pages/stages.page";
 
 export const Route = createFileRoute("/_authed/stages")({
   component: StagesPage,
-  loader: ({ context }) => {
-    return context.queryClient.ensureQueryData(stagesQueryOptions);
+  loader: async ({ context }) => {
+    return await context.queryClient.ensureQueryData(stagesQueryOptions);
   },
 });

@@ -10,6 +10,7 @@ export const useDeleteTeam = () => {
     mutationFn: useServerFn(deleteTeam),
     onSuccess: () => {
       router.invalidate();
+      // zinvalidduj query
     },
     onError: (error) => {
       console.error(error);

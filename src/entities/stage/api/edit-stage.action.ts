@@ -4,17 +4,27 @@ import { db } from "~/db";
 import { stages } from "~/db/schema";
 import { eq, and, ne } from "drizzle-orm";
 import { EditStageSchema } from "../model/schema";
-import { requireAdmin } from "~/features/auth/lib/auth.guard";
+import { adminMiddleware } from "~/features/auth/middlewares/check-admin.middleware";
 
 export const editStage = createServerFn({
   method: "POST",
 })
+  .middleware([adminMiddleware])
   .inputValidator((data: FormData) => {
     return zodFormDataValidator(EditStageSchema)(data);
   })
   .handler(async ({ data }) => {
     try {
-      await requireAdmin();
+      // Check if stage exists
+      const stage = await db
+        .select({ id: stages.id })
+        .from(stages)
+        .where(eq(stages.id, data.id))
+        .limit(1);
+
+      if (stage.length === 0) {
+        throw new Error("Stage not found.");
+      }
 
       const existingStage = await db
         .select()

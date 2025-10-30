@@ -8,8 +8,6 @@ import { TeamFormProps } from "~/entities/team/model/schema";
 export const EditTeamButton = ({ team }: { team: TeamFormProps }) => {
   const { isOpen, openModal, closeModal } = useModal();
 
-  console.log(team);
-
   return (
     <>
       <button

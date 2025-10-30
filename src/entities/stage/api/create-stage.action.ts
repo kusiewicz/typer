@@ -4,17 +4,16 @@ import { db } from "~/db";
 import { stages } from "~/db/schema";
 import { eq } from "drizzle-orm";
 import { StageSchema } from "../model/schema";
-import { requireAdmin } from "~/features/auth/lib/auth.guard";
+import { adminMiddleware } from "~/features/auth/middlewares/check-admin.middleware";
 
 export const createStage = createServerFn({
   method: "POST",
 })
+  .middleware([adminMiddleware])
   .inputValidator((data: FormData) => {
     return zodFormDataValidator(StageSchema)(data);
   })
   .handler(async ({ data }) => {
-    await requireAdmin();
-
     try {
       const existingStage = await db
         .select()

@@ -1,10 +1,12 @@
+import { createMiddleware } from "@tanstack/react-start";
+import { eq } from "drizzle-orm";
 import { db } from "~/db";
 import { profiles } from "~/db/schema";
-import { eq } from "drizzle-orm";
 import { getSupabaseServerClient } from "~/shared/utils/supabase/server";
 
-export const requireUser = async () => {
+export const adminMiddleware = createMiddleware().server(async ({ next }) => {
   const supabase = getSupabaseServerClient();
+
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -12,12 +14,6 @@ export const requireUser = async () => {
   if (!user) {
     throw new Error("Unauthorized");
   }
-
-  return user;
-};
-
-export const requireAdmin = async () => {
-  const user = await requireUser();
 
   const profile = await db
     .select({
@@ -30,4 +26,6 @@ export const requireAdmin = async () => {
   if (profile.length === 0 || !profile[0].isAdmin) {
     throw new Error("Unauthorized");
   }
-};
+
+  return next();
+});

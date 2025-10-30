@@ -5,8 +5,6 @@ import {
   Scripts,
   createRootRouteWithContext,
 } from "@tanstack/react-router";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import * as React from "react";
 import type { QueryClient } from "@tanstack/react-query";
 import { DefaultCatchBoundary } from "~/shared/ui/default-catch-boundary";
@@ -14,6 +12,7 @@ import { NotFound } from "~/shared/ui/not-found";
 import appCss from "~/styles/app.css?url";
 import { seo } from "~/seo";
 import { fetchUser } from "~/entities/user/api/fetch-user.action";
+import { ThemeInit } from "../../.flowbite-react/init";
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
@@ -35,8 +34,7 @@ export const Route = createRootRouteWithContext<{
         content: "width=device-width, initial-scale=1",
       },
       ...seo({
-        title:
-          "TanStack Start | Type-Safe, Client-First, Full-Stack React Framework",
+        title: "TYPER",
         description: `TanStack Start is a type-safe, client-first, full-stack React framework. `,
       }),
     ],
@@ -51,13 +49,13 @@ export const Route = createRootRouteWithContext<{
         rel: "icon",
         type: "image/png",
         sizes: "32x32",
-        href: "/favicon-32x32.png",
+        href: "/favicon.ico",
       },
       {
         rel: "icon",
         type: "image/png",
         sizes: "16x16",
-        href: "/favicon-16x16.png",
+        href: "/favicon.ico",
       },
       { rel: "manifest", href: "/site.webmanifest", color: "#fffff" },
       { rel: "icon", href: "/favicon.ico" },
@@ -83,46 +81,17 @@ function RootComponent() {
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
-  // React.useEffect(() => {
-  //   // Initialize Flowbite
-  //   const initFlowbite = async () => {
-  //     try {
-  //       const { initFlowbite: init } = await import("flowbite");
-  //       init();
-  //       console.log("Flowbite initialized successfully");
-  //     } catch (error) {
-  //       console.error("Failed to initialize Flowbite:", error);
-  //     }
-  //   };
-
-  //   // Wait for DOM to be ready
-  //   if (document.readyState === "loading") {
-  //     document.addEventListener("DOMContentLoaded", initFlowbite);
-  //   } else {
-  //     initFlowbite();
-  //   }
-
-  //   return () => {
-  //     document.removeEventListener("DOMContentLoaded", initFlowbite);
-  //   };
-  // }, []);
-
   return (
     <html>
       <head>
         <HeadContent />
       </head>
       <body>
+        <Scripts />
+        <ThemeInit />
         <div className="w-screen h-screen bg-slate-800 text-gray-900 dark:text-white">
           {children}
-          <TanStackRouterDevtools position="bottom-right" />
-          <ReactQueryDevtools buttonPosition="bottom-left" />
-          <Scripts />
         </div>
-        <script
-          src="../../node_modules/flowbite/dist/flowbite.min.js"
-          defer
-        ></script>
       </body>
     </html>
   );
